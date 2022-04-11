@@ -14,6 +14,9 @@ screen_width = 1200
 screen_height = 700
 screen = pygame.display.set_mode((screen_width,screen_height))
 clock = pygame.time.Clock()
+background = pygame.image.load("./resources/images/bg_blue.png")
+background = pygame.transform.scale(background, (screen_width, screen_height))
+pygame.mouse.set_visible(False)
 
 crosshair = Crosshair(50, 50, 100, 100, (255, 255, 255))
 crosshair_group = pygame.sprite.Group()
@@ -25,5 +28,6 @@ while True:
             sys.exit()
 
     pygame.display.flip()
+    screen.blit(background,(0,0))
     crosshair_group.draw(screen)
     clock.tick(60)
