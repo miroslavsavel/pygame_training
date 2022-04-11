@@ -1,16 +1,29 @@
-# This is a sample Python script.
+import pygame, sys
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+class Crosshair(pygame.sprite.Sprite):
+    def __init__(self, width, height, pos_x, pos_y, color):
+        super().__init__()
+        self.image = pygame.Surface([width,height]) #empty surface
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.rect.center = [pos_x, pos_y]
 
+#Pygame setup
+pygame.init()
+screen_width = 1200
+screen_height = 700
+screen = pygame.display.set_mode((screen_width,screen_height))
+clock = pygame.time.Clock()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+crosshair = Crosshair(50, 50, 100, 100, (255, 255, 255))
+crosshair_group = pygame.sprite.Group()
+crosshair_group.add(crosshair)
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    pygame.display.flip()
+    crosshair_group.draw(screen)
+    clock.tick(60)
