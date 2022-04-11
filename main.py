@@ -1,12 +1,15 @@
 import pygame, sys
 
 class Crosshair(pygame.sprite.Sprite):
-    def __init__(self, width, height, pos_x, pos_y, color):
+    def __init__(self,  picture_path):
         super().__init__()
-        self.image = pygame.Surface([width,height]) #empty surface
-        self.image.fill(color)
+        self.image = pygame.image.load(picture_path)
         self.rect = self.image.get_rect()
-        self.rect.center = [pos_x, pos_y]
+
+    def update(self):
+        # method predefined in originla Sprite class
+        self.rect.center = pygame.mouse.get_pos()
+
 
 #Pygame setup
 pygame.init()
@@ -18,9 +21,11 @@ background = pygame.image.load("./resources/images/bg_blue.png")
 background = pygame.transform.scale(background, (screen_width, screen_height))
 pygame.mouse.set_visible(False)
 
-crosshair = Crosshair(50, 50, 100, 100, (255, 255, 255))
+# Crosshair
+crosshair = Crosshair("./resources/images/crosshair_red_small.png")
 crosshair_group = pygame.sprite.Group()
 crosshair_group.add(crosshair)
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -30,4 +35,5 @@ while True:
     pygame.display.flip()
     screen.blit(background,(0,0))
     crosshair_group.draw(screen)
+    crosshair_group.update()
     clock.tick(60)
