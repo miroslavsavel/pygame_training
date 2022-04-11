@@ -1,3 +1,5 @@
+import random
+
 import pygame, sys
 
 class Crosshair(pygame.sprite.Sprite):
@@ -14,6 +16,12 @@ class Crosshair(pygame.sprite.Sprite):
         # method predefined in originla Sprite class
         self.rect.center = pygame.mouse.get_pos()
 
+class Target(pygame.sprite.Sprite):
+    def __init__(self, picture_path, pos_x, pos_y):
+        super().__init__()
+        self.image = pygame.image.load(picture_path)
+        self.rect = self.image.get_rect()
+        self.rect.center = [pos_x, pos_y]
 
 #Pygame setup
 pygame.init()
@@ -30,6 +38,13 @@ crosshair = Crosshair("./resources/images/crosshair_red_small.png")
 crosshair_group = pygame.sprite.Group()
 crosshair_group.add(crosshair)
 
+#Target
+target_group = pygame.sprite.Group()
+for target in range(20):
+    #create new target in random position
+    new_target = Target("./resources/images/target_colored.png", random.randrange(0, screen_width), random.randrange(0, screen_height))
+    target_group.add(new_target)
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -40,6 +55,7 @@ while True:
 
     pygame.display.flip()
     screen.blit(background,(0,0))
+    target_group.draw(screen)
     crosshair_group.draw(screen)
     crosshair_group.update()
     clock.tick(60)
