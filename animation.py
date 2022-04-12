@@ -26,13 +26,13 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         self.is_animating = True
 
-    def update(self):
+    def update(self, animation_speed):
         if self.is_animating == True:
-            self.current_sprite += 1
+            self.current_sprite += animation_speed  # here we slower the animation
             if self.current_sprite >= len(self.sprites):
                 self.current_sprite = 0
                 self.is_animating = False
-            self.image = self.sprites[self.current_sprite]
+            self.image = self.sprites[int(self.current_sprite)]
 
 #Pygame setup
 pygame.init()
@@ -57,6 +57,6 @@ while True:
     #drawing
     screen.fill('black')
     moving_sprites.draw(screen)
-    moving_sprites.update() # this will call update method on every sprite in the group
+    moving_sprites.update(0.2) # this will call update method on every sprite in the group
     pygame.display.flip()
     clock.tick(60)
