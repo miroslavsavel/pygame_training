@@ -11,6 +11,7 @@ class Crosshair(pygame.sprite.Sprite):
 
     def shoot(self):
         self.gunshot.play()
+        pygame.sprite.spritecollide(crosshair, target_group, True) # it will checks two groups of sprites
 
     def update(self):
         # method predefined in originla Sprite class
