@@ -6,6 +6,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, pos_x, pos_y):
         super().__init__()
         self.sprites = [] # here we load the images
+        self.is_animating = False
         self.sprites.append(pygame.image.load("./resources/images/animation/attack_1.png"))
         self.sprites.append(pygame.image.load("./resources/images/animation/attack_2.png"))
         self.sprites.append(pygame.image.load("./resources/images/animation/attack_3.png"))
@@ -22,11 +23,16 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = [pos_x,pos_y]
 
+    def animate(self):
+        self.is_animating = True
+
     def update(self):
-        self.current_sprite += 1
-        if self.current_sprite >= len(self.sprites):
-            self.current_sprite = 0
-        self.image = self.sprites[self.current_sprite]
+        if self.is_animating == True:
+            self.current_sprite += 1
+            if self.current_sprite >= len(self.sprites):
+                self.current_sprite = 0
+                self.is_animating = False
+            self.image = self.sprites[self.current_sprite]
 
 #Pygame setup
 pygame.init()
@@ -46,6 +52,8 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            player.animate()
     #drawing
     screen.fill('black')
     moving_sprites.draw(screen)
